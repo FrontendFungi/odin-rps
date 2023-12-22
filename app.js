@@ -1,8 +1,6 @@
-// Function to get player's choice
-function getPlayerChoice() {
-    const playerChoice = prompt("Rock, Paper or Scissors?");
-    return playerChoice;
-}
+// Initialize score variables
+let playerScore = 0;
+let computerScore = 0;
 
 // Function to get the computer's choice
 function getComputerChoice() {
@@ -27,12 +25,19 @@ function getComputerChoice() {
     return computerChoice
 }
 
+
 // Function to play a single round
-function playRound(playerSelection, computerSelection) {
+function playRound() {
+    // Get player choice
+    const playerChoice = prompt("Rock, Paper or Scissors?");
+    // Get the computer's choice
+    const computerSelection = getComputerChoice()
     // Initialize the result variable
     let result;
+    // Initialize score board variable
+    let scoreBoard;
     // Format the player's input
-    const selection = playerSelection;
+    const selection = playerChoice;
     const selectionCapitalized = selection.charAt(0).toUpperCase() + selection.slice(1);
     // Check the player's input for errors
     if (selectionCapitalized !== "Rock" || "Paper" || "Scissors") {
@@ -40,29 +45,52 @@ function playRound(playerSelection, computerSelection) {
     }
     // Check for a tie
     if (selectionCapitalized == computerSelection) {
-        result = "It's a tie!"
-    // Check for a winner
+        result = "It's a tie! Play again.."
+        // Check for a winner
     } else if (selectionCapitalized == "Rock" && computerSelection == "Scissors") {
         result = "Rock smashes scissors, you win the round!"
+        ++playerScore
     } else if (selectionCapitalized == "Paper" && computerSelection == "Rock") {
         result = "Paper covers Rock, you win the round!"
+        ++playerScore
     } else if (selectionCapitalized == "Scissors" && computerSelection == "Paper") {
         result = "Scissors slash Paper, you win the round!"
+        ++playerScore
     } else if (computerSelection == "Rock" && selectionCapitalized == "Scissors") {
         result = "Rock crushes Scissors, you lose the round.."
+        ++computerScore
     } else if (computerSelection == "Paper" && selectionCapitalized == "Rock") {
         result = "Paper covers Rock, you lose the round.."
+        ++computerScore
     } else if (computerSelection == "Scissors" && selectionCapitalized == "Paper") {
         result = "Scissors cuts Paper, you lose the round.."
+        ++computerScore
     }
+    scoreBoard = `Player: ${playerScore} | Computer: ${computerScore}`
+    const roundResult = `${result}\n${scoreBoard}`;
+
     // Return the result
-    return result;
+    return roundResult
 }
 
-// Get the player's choice
-const playerChoice = getPlayerChoice()
-// Get the computer's choice
-const cpuChoice = getComputerChoice()
+// Function to end the game
+function endGame() {
+    if (playerScore > computerScore) {
+        console.log("Game over, you won!");
+    } else if (computerScore > playerScore) {
+        console.log("Game over, you lose..")
+    }
+}
 
-// Play a single round and log the result
-console.log(playRound(playerChoice, cpuChoice))
+// Function to play a 5 round game
+function game() {
+    console.log(playRound())
+    if (playerScore < 5 && computerScore < 5) {
+        game();
+    } else {
+        endGame();
+    }
+}
+
+// Play a best-of-5 game
+game()
