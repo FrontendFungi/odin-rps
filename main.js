@@ -89,19 +89,13 @@ function game() {
     const btns = document.querySelectorAll('button')
 
     // Create the game buttons
-    function createGameButtons() {
-        const ROCK = document.createElement('button')
-        const PAPER = document.createElement('button')
-        const SCISSORS = document.createElement('button')
-    }
-    createGameButtons()
+    const ROCK = document.createElement('button')
+    const PAPER = document.createElement('button')
+    const SCISSORS = document.createElement('button')
 
-    // Add click event listeners to game buttons
-    function addEventListeners() {
-        // For every game button, add an event listener
-        btns.forEach(document.addEventListener('click', playRound))
-    }
-    addEventListeners()
+    // For every game button, add an event listener
+    btns.forEach(document.addEventListener('click', playRound))
+
 
 }
 
