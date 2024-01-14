@@ -2,116 +2,130 @@
 let playerScore = 0;
 let computerScore = 0;
 
+// Select the result paragraphs
+const roundResultDisplay = document.querySelector('#roundResultDisplay');
+const scoreDisplay = document.querySelector('#scoreDisplay');
+const gameResultDisplay = document.querySelector('#gameResultDisplay');
+
 // Function to get the computer's choice
 function getComputerChoice() {
     // Return a random whole number between 1 and 3
-    let randomNum = Math.floor((Math.random() * 3) + 1);
-    // Initialize computerChoice variable
-    let computerChoice;
+    const randomNum = Math.floor(Math.random() * 3) + 1;
+
     // Depending on the number returned, assign a value
+    let computerChoice;
     switch (randomNum) {
         case 1:
             computerChoice = 'Rock';
             break;
-        case 2: computerChoice = 'Paper';
+        case 2:
+            computerChoice = 'Paper';
             break;
         case 3:
             computerChoice = 'Scissors';
             break;
         default:
-            console.log('Failed to return a random number')
+            console.error('Failed to return a random number');
     }
-    // Return the value
-    return computerChoice
-}
 
+    // Return the value
+    return computerChoice;
+}
 
 // Function to play a single round
 function playRound(choice) {
     // Get player choice
     const playerChoice = choice;
+
     // Get the computer's choice
-    const computerSelection = getComputerChoice()
+    const computerSelection = getComputerChoice();
+
     // Initialize the result variable
     let result;
     // Initialize score board variable
     let scoreBoard;
+
     // Check for a tie
-    if (playerChoice == computerSelection) {
-        result = "It's a tie! Play again.."
+    if (playerChoice === computerSelection) {
+        result = "It's a tie! Play again..";
+    } else {
         // Check for a winner
-    } else if (playerChoice == "Rock" && computerSelection == "Scissors") {
-        result = "Rock smashes scissors, you win the round!"
-        ++playerScore
-    } else if (playerChoice == "Paper" && computerSelection == "Rock") {
-        result = "Paper covers Rock, you win the round!"
-        ++playerScore
-    } else if (playerChoice == "Scissors" && computerSelection == "Paper") {
-        result = "Scissors slash Paper, you win the round!"
-        ++playerScore
-    } else if (computerSelection == "Rock" && playerChoice == "Scissors") {
-        result = "Rock crushes Scissors, you lose the round.."
-        ++computerScore
-    } else if (computerSelection == "Paper" && playerChoice == "Rock") {
-        result = "Paper covers Rock, you lose the round.."
-        ++computerScore
-    } else if (computerSelection == "Scissors" && playerChoice == "Paper") {
-        result = "Scissors cuts Paper, you lose the round.."
-        ++computerScore
+        if (
+            (playerChoice === "Rock" && computerSelection === "Scissors") ||
+            (playerChoice === "Paper" && computerSelection === "Rock") ||
+            (playerChoice === "Scissors" && computerSelection === "Paper")
+        ) {
+            result = `${playerChoice} beats ${computerSelection}, you win the round!`;
+            ++playerScore;
+        } else {
+            result = `${computerSelection} beats ${playerChoice}, you lose the round..`;
+            ++computerScore;
+        }
     }
-    scoreBoard = `Player: ${playerScore} | Computer: ${computerScore}`
-    const roundResult = `${result}\n${scoreBoard}`;
+
+    scoreBoard = `Player: ${playerScore} | Computer: ${computerScore}`;
+    let roundResult = `${result}`;
+
+    roundResultDisplay.textContent = roundResult;
+    scoreDisplay.textContent = scoreBoard;
 
     // Return the result
-    return roundResult
+    return roundResult;
 }
 
 // Function to end the game
 function endGame() {
     if (playerScore > computerScore) {
-        console.log("Game over, you won!");
+        roundResult = "Game over, you won!";
     } else if (computerScore > playerScore) {
-        console.log("Game over, you lose..")
+        roundResult = "Game over, you lose..";
+    } else {
+        roundResult = "Game over, it's a tie!";
     }
+
+    gameResultDisplay.textContent = roundResult;
 }
 
-// Function to play a game
-function game() {
-
+function createUI() {
     // Create the game buttons
-    const ROCK = document.createElement('button')
-    ROCK.setAttribute('id', 'Rock')
-    ROCK.textContent = 'ROCK'
-    const PAPER = document.createElement('button')
-    PAPER.setAttribute('id', 'Paper')
-    PAPER.textContent = 'PAPER'
-    const SCISSORS = document.createElement('button')
-    SCISSORS.setAttribute('id', 'Scissors')
-    SCISSORS.textContent = 'SCISSORS'
-    
+    const createButton = (id, text) => {
+        const button = document.createElement('button');
+        button.setAttribute('id', id);
+        button.textContent = text;
+        return button;
+    };
+
+    const ROCK = createButton('Rock', 'ROCK');
+    const PAPER = createButton('Paper', 'PAPER');
+    const SCISSORS = createButton('Scissors', 'SCISSORS');
+
     // Select the buttons div
     const gameBtns = document.querySelector('#gameBtns');
 
-    // Select the results div
-    const gameResults = document.querySelector('#gameResults')
-    // Select the result paragraph
-    const displayResult = document.querySelector('#displayResult')
-
     // Append the game buttons to the buttons div
-    gameBtns.appendChild(ROCK)
-    gameBtns.appendChild(PAPER)
-    gameBtns.appendChild(SCISSORS)
+    [ROCK, PAPER, SCISSORS].forEach(button => gameBtns.appendChild(button));
 
     // Add an event listener to the buttons div
     gameBtns.addEventListener('click', (e) => {
-        // Get the game button id
-        let choice = e.target.id
-        // When a button is clicked, play a round
-        let roundResult = playRound(choice)
-        displayResult.textContent = roundResult
-    })
+        // Check if the game is already over
+        if (playerScore >= 5 || computerScore >= 5) {
+            // Display a message or perform any action indicating that the game is over
+            return;
+        }
 
+        // Get the game button id
+        const choice = e.target.id;
+
+        // When a button is clicked, play a round
+        roundResult = playRound(choice);
+        roundResultDisplay.textContent = roundResult;
+
+        // Check for the end of the game after each round
+        if (playerScore >= 5 || computerScore >= 5) {
+            endGame();
+        }
+    });
 }
 
 // Play a game
-game()
+createUI();
