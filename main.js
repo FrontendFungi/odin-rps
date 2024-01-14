@@ -93,6 +93,7 @@ function rps() {
         const ROCK = createButton('Rock', 'ROCK');
         const PAPER = createButton('Paper', 'PAPER');
         const SCISSORS = createButton('Scissors', 'SCISSORS');
+        // Create reset button
         const RESET = createButton('Reset', 'RESET')
         RESET.addEventListener('click', () => { location.reload() })
 
