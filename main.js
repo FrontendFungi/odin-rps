@@ -86,22 +86,14 @@ function rps() {
         const createButton = (id, text) => {
             const button = document.createElement('button');
             button.setAttribute('id', id);
-            button.textContent = text;
+            button.innerHTML = text;
             return button;
         };
 
-        // Function to create paragraph elements
-        const createPara = (id, text) => {
-            const para = document.createElement('p')
-            para.setAttribute('id', id)
-            para.textContent = text
-            return para
-        }
-
         // Create game buttons
-        const ROCK = createButton('Rock', 'ROCK');
-        const PAPER = createButton('Paper', 'PAPER');
-        const SCISSORS = createButton('Scissors', 'SCISSORS');
+        const ROCK = createButton('Rock', '✊');
+        const PAPER = createButton('Paper', '✋');
+        const SCISSORS = createButton('Scissors', '✌️');
         // Create reset button
         const RESET = createButton('Reset', 'RESET')
         RESET.addEventListener('click', () => { location.reload() })
