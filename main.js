@@ -82,15 +82,21 @@ function endGame() {
     }
 }
 
-// Function to play a 5 round game
+// Function to play a game
 function game() {
-    console.log(playRound())
-    if (playerScore < 5 && computerScore < 5) {
-        game();
-    } else {
-        endGame();
+
+    // Select the buttons
+    const btns = document.querySelectorAll('button')
+
+    // Create the game buttons
+    function createGameButtons() {
+        const ROCK = document.createElement('button')
+        const PAPER = document.createElement('button')
+        const SCISSORS = document.createElement('button')
     }
+    createGameButtons()
+
 }
 
-// Play a best-of-5 game
+// Play a game
 game()
