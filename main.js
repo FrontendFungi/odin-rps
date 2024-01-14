@@ -1,3 +1,4 @@
+// Function to play a game of RPS
 function rps() {
 
     // Initialize score variables
@@ -11,6 +12,7 @@ function rps() {
 
     // Function to get the computer's choice
     function getComputerChoice() {
+
         // Return a random whole number between 1 and 3
         const randomNum = Math.floor(Math.random() * 3) + 1;
 
@@ -49,6 +51,7 @@ function rps() {
         if (playerChoice === computerSelection) {
             result = "It's a tie! Play again..";
         } else {
+
             // Check for a winner
             if (
                 (playerChoice === "Rock" && computerSelection === "Scissors") ||
@@ -67,6 +70,7 @@ function rps() {
         const scoreBoard = `Player: ${playerScore} | Computer: ${computerScore}`;
         const roundResult = `${result}`;
 
+        // Display the result and scoreboard
         roundResultDisplay.textContent = roundResult;
         scoreDisplay.textContent = scoreBoard;
 
@@ -86,6 +90,14 @@ function rps() {
             return button;
         };
 
+        // Function to create paragraph elements
+        const createPara = (id, text) => {
+            const para = document.createElement('p')
+            para.setAttribute('id', id)
+            para.textContent = text
+            return para
+        }
+
         // Create game buttons
         const ROCK = createButton('Rock', 'ROCK');
         const PAPER = createButton('Paper', 'PAPER');
@@ -103,10 +115,10 @@ function rps() {
         // Add an event listener to the buttons div
         gameBtns.addEventListener('click', (e) => {
 
-            // Check if the game is already over
+            // Check if the game has reached a score of 5
             if (playerScore >= 5 || computerScore >= 5) {
 
-                // If it is, end the game
+                // If it has, end the game
                 endGame()
 
                 // Remove the game buttons, insert the reset button
@@ -126,6 +138,7 @@ function rps() {
 
         // Function to end the game
         function endGame() {
+            // Check who won the game
             if (playerScore > computerScore) {
                 roundResult = "Game over, you won!";
             } else if (computerScore > playerScore) {
