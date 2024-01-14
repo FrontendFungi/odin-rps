@@ -44,8 +44,6 @@ function rps() {
 
         // Initialize the result variable
         let result;
-        // Initialize score board variable
-        let scoreBoard;
 
         // Check for a tie
         if (playerChoice === computerSelection) {
@@ -65,8 +63,9 @@ function rps() {
             }
         }
 
-        scoreBoard = `Player: ${playerScore} | Computer: ${computerScore}`;
-        let roundResult = `${result}`;
+        // Initialize score board variable
+        const scoreBoard = `Player: ${playerScore} | Computer: ${computerScore}`;
+        const roundResult = `${result}`;
 
         roundResultDisplay.textContent = roundResult;
         scoreDisplay.textContent = scoreBoard;
@@ -79,9 +78,7 @@ function rps() {
     // Function to create UI
     function createUI() {
 
-
-
-        // Function to create game buttons
+        // Function to create buttons
         const createButton = (id, text) => {
             const button = document.createElement('button');
             button.setAttribute('id', id);
@@ -105,19 +102,25 @@ function rps() {
 
         // Add an event listener to the buttons div
         gameBtns.addEventListener('click', (e) => {
+
             // Check if the game is already over
             if (playerScore >= 5 || computerScore >= 5) {
+
+                // If it is, end the game
                 endGame()
-                gameBtns.replaceChildren()
-                gameBtns.appendChild(RESET)
+
+                // Remove the game buttons, insert the reset button
+                gameBtns.replaceChildren(), gameBtns.appendChild(RESET)
                 return;
             }
 
-            // Get the game button id
-            const choice = e.target.id;
+            // Get the button id of the player's choice
+            const playerChoice = e.target.id;
 
             // When a button is clicked, play a round
-            roundResult = playRound(choice);
+            roundResult = playRound(playerChoice);
+
+            // Display the results of the round
             roundResultDisplay.textContent = roundResult;
         });
 
@@ -130,7 +133,7 @@ function rps() {
             } else {
                 roundResult = "Game over, it's a tie!";
             }
-
+            // Display the results of the round
             gameResultDisplay.textContent = roundResult;
         }
     }
