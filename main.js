@@ -96,6 +96,13 @@ function game() {
     }
     createGameButtons()
 
+    // Add click event listeners to game buttons
+    function addEventListeners() {
+        // For every game button, add an event listener
+        btns.forEach(document.addEventListener('click', playRound))
+    }
+    addEventListeners()
+
 }
 
 // Play a game
