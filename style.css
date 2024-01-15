@@ -1,5 +1,38 @@
-#Rock, #Paper, #Scissors {
-    border: none;
-    background-color: white;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+body {
+    height: 100vh;
+}
+
+* {
+    color: white;
+    background-color: rgb(34, 33, 33);
+    font-weight: bold;
+    font-family: 'Roboto' ;
+    overflow: hidden;
+}
+
+#title {
+    margin-bottom: 30px;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px;
+}
+
+#Rock, #Paper, #Scissors, #Reset {
+    border: 0;
     font-size: 50px;
+    margin: 0 20px;
+}
+
+
+#gameResults {
+    min-height: 200px;
 }

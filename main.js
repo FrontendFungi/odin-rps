@@ -1,6 +1,5 @@
 // Function to play a game of RPS
 function rps() {
-
     // Initialize score variables
     let playerScore = 0;
     let computerScore = 0;
@@ -12,7 +11,6 @@ function rps() {
 
     // Function to get the computer's choice
     function getComputerChoice() {
-
         // Return a random whole number between 1 and 3
         const randomNum = Math.floor(Math.random() * 3) + 1;
 
@@ -51,7 +49,6 @@ function rps() {
         if (playerChoice === computerSelection) {
             result = "It's a tie! Play again..";
         } else {
-
             // Check for a winner
             if (
                 (playerChoice === "Rock" && computerSelection === "Scissors") ||
@@ -66,7 +63,7 @@ function rps() {
             }
         }
 
-        // Initialize score board variable
+        // Initialize scoreboard variable
         const scoreBoard = `Player: ${playerScore} | Computer: ${computerScore}`;
         const roundResult = `${result}`;
 
@@ -78,10 +75,10 @@ function rps() {
         return roundResult;
     }
 
-
     // Function to create UI
     function createUI() {
-
+        const gameTitle = document.querySelector('#title')
+        gameTitle.innerHTML = `Choose Wisely`
         // Function to create buttons
         const createButton = (id, text) => {
             const button = document.createElement('button');
@@ -95,7 +92,7 @@ function rps() {
         const PAPER = createButton('Paper', '✋');
         const SCISSORS = createButton('Scissors', '✌️');
         // Create reset button
-        const RESET = createButton('Reset', 'RESET')
+        const RESET = createButton('Reset', '↩️')
         RESET.addEventListener('click', () => { location.reload() })
 
         // Select the buttons div
@@ -106,26 +103,28 @@ function rps() {
 
         // Add an event listener to the buttons div
         gameBtns.addEventListener('click', (e) => {
-
             // Check if the game has reached a score of 5
             if (playerScore >= 5 || computerScore >= 5) {
-
                 // If it has, end the game
                 endGame()
-
-                // Remove the game buttons, insert the reset button
-                gameBtns.replaceChildren(), gameBtns.appendChild(RESET)
                 return;
             }
+            if (e.target.nodeName === 'BUTTON') {
+                // Get the button id of the player's choice
+                const playerChoice = e.target.id;
 
-            // Get the button id of the player's choice
-            const playerChoice = e.target.id;
+                // When a button is clicked, play a round
+                roundResult = playRound(playerChoice);
 
-            // When a button is clicked, play a round
-            roundResult = playRound(playerChoice);
+                // Display the results of the round
+                roundResultDisplay.textContent = roundResult;
 
-            // Display the results of the round
-            roundResultDisplay.textContent = roundResult;
+                // Check if one of the players reached 5 points after the round
+                if (playerScore >= 5 || computerScore >= 5) {
+                    // If yes, end the game
+                    endGame();
+                }
+            }
         });
 
         // Function to end the game
@@ -138,6 +137,9 @@ function rps() {
             } else {
                 roundResult = "Game over, it's a tie!";
             }
+            // Remove the game buttons, insert the reset button
+            gameBtns.replaceChildren(), gameBtns.appendChild(RESET)
+            roundResultDisplay.remove()
             // Display the results of the round
             gameResultDisplay.textContent = roundResult;
         }
@@ -148,4 +150,4 @@ function rps() {
 }
 
 // Play RPS
-rps()
+rps();
